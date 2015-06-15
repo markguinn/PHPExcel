@@ -141,6 +141,12 @@ class PHPExcel_Chart_DataSeries
 
 
 	/**
+	 * @var int
+	 */
+	private $gapWidth;
+
+
+	/**
 	 * Create a new PHPExcel_Chart_DataSeries
 	 */
 	public function __construct($plotType = null, $plotGrouping = null, $plotOrder = array(), $plotLabel = array(), $plotCategory = array(), $plotValues = array(), $plotDirection = null, $smoothLine = null, $plotStyle = null)
@@ -397,6 +403,24 @@ class PHPExcel_Chart_DataSeries
 	public function setVaryColors($varyColors)
 	{
 		$this->varyColors = $varyColors;
+		return $this;
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getGapWidth() {
+		return isset($this->gapWidth) ? $this->gapWidth : null;
+	}
+
+
+	/**
+	 * @param int $gapWidth
+	 * @return $this
+	 */
+	public function setGapWidth($gapWidth) {
+		$this->gapWidth = $gapWidth;
 		return $this;
 	}
 

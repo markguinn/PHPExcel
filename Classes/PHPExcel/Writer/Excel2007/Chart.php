@@ -252,6 +252,8 @@ class PHPExcel_Writer_Excel2007_Chart extends PHPExcel_Writer_Excel2007_WriterPa
 
 			$this->writeDataLabels($objWriter, $layout);
 
+			$gapWidth = $plotGroup->getGapWidth();
+
 			if ($chartType === PHPExcel_Chart_DataSeries::TYPE_LINECHART) {
 				//    Line only, Line3D can't be smoothed
 
@@ -260,7 +262,7 @@ class PHPExcel_Writer_Excel2007_Chart extends PHPExcel_Writer_Excel2007_WriterPa
 				$objWriter->endElement();
 			} elseif (($chartType === PHPExcel_Chart_DataSeries::TYPE_BARCHART) ||($chartType === PHPExcel_Chart_DataSeries::TYPE_BARCHART_3D)) {
 				$objWriter->startElement('c:gapWidth');
-				$objWriter->writeAttribute('val', 150);
+				$objWriter->writeAttribute('val', is_null($gapWidth) ? 150 : $gapWidth);
 				$objWriter->endElement();
 
 				if ($plotGroupingType == 'percentStacked' || $plotGroupingType == 'stacked') {
@@ -283,7 +285,7 @@ class PHPExcel_Writer_Excel2007_Chart extends PHPExcel_Writer_Excel2007_WriterPa
 				$objWriter->startElement('c:upDownBars');
 
 				$objWriter->startElement('c:gapWidth');
-				$objWriter->writeAttribute('val', 300);
+				$objWriter->writeAttribute('val', is_null($gapWidth) ? 300 : $gapWidth);
 				$objWriter->endElement();
 
 				$objWriter->startElement('c:upBars');
