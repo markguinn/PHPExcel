@@ -1119,7 +1119,11 @@ class PHPExcel_Writer_Excel2007_Chart extends PHPExcel_Writer_Excel2007_WriterPa
 
 		if (($groupType !== PHPExcel_Chart_DataSeries::TYPE_RADARCHART) && ($groupType !== PHPExcel_Chart_DataSeries::TYPE_STOCKCHART)) {
 			if ($groupType !== PHPExcel_Chart_DataSeries::TYPE_LINECHART) {
-				if (($groupType == PHPExcel_Chart_DataSeries::TYPE_PIECHART) || ($groupType == PHPExcel_Chart_DataSeries::TYPE_PIECHART_3D) || ($groupType == PHPExcel_Chart_DataSeries::TYPE_DONUTCHART) || ($plotSeriesCount > 1)) {
+				if ($plotGroup->getVaryColors() !== null) {
+					$objWriter->startElement('c:varyColors');
+					$objWriter->writeAttribute('val', $plotGroup->getVaryColors());
+					$objWriter->endElement();
+				} elseif (($groupType == PHPExcel_Chart_DataSeries::TYPE_PIECHART) || ($groupType == PHPExcel_Chart_DataSeries::TYPE_PIECHART_3D) || ($groupType == PHPExcel_Chart_DataSeries::TYPE_DONUTCHART) || ($plotSeriesCount > 1)) {
 					$objWriter->startElement('c:varyColors');
 					$objWriter->writeAttribute('val', 1);
 					$objWriter->endElement();
