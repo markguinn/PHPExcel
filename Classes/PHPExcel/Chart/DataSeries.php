@@ -147,6 +147,18 @@ class PHPExcel_Chart_DataSeries
 
 
 	/**
+	 * @var PHPExcel_Chart_Axis
+	 */
+	private $altXAxis = null;
+
+
+	/**
+	 * @var PHPExcel_Chart_Axis
+	 */
+	private $altYAxis = null;
+
+
+	/**
 	 * Create a new PHPExcel_Chart_DataSeries
 	 */
 	public function __construct($plotType = null, $plotGrouping = null, $plotOrder = array(), $plotLabel = array(), $plotCategory = array(), $plotValues = array(), $plotDirection = null, $smoothLine = null, $plotStyle = null)
@@ -421,6 +433,42 @@ class PHPExcel_Chart_DataSeries
 	 */
 	public function setGapWidth($gapWidth) {
 		$this->gapWidth = $gapWidth;
+		return $this;
+	}
+
+
+	/**
+	 * @return PHPExcel_Chart_Axis
+	 */
+	public function getAltXAxis() {
+		return $this->altXAxis;
+	}
+
+
+	/**
+	 * @param PHPExcel_Chart_Axis $altXAxis
+	 * @return $this
+	 */
+	public function setAltXAxis($altXAxis) {
+		$this->altXAxis = $altXAxis;
+		return $this;
+	}
+
+
+	/**
+	 * @return PHPExcel_Chart_Axis
+	 */
+	public function getAltYAxis() {
+		return $this->altYAxis;
+	}
+
+
+	/**
+	 * @param PHPExcel_Chart_Axis $altYAxis
+	 * @return $this
+	 */
+	public function setAltYAxis($altYAxis) {
+		$this->altYAxis = $altYAxis;
 		return $this;
 	}
 

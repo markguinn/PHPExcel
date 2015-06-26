@@ -130,6 +130,19 @@ class PHPExcel_Chart_Axis extends PHPExcel_Chart_Properties
         'size' => null
     );
 
+
+	/**
+	 * @var int
+	 */
+	private $axisId;
+
+
+	/**
+	 * @var array
+	 */
+	private static $allAxisIds = array();
+
+
     /**
      * Get Series Data Type
      *
@@ -200,8 +213,21 @@ class PHPExcel_Chart_Axis extends PHPExcel_Chart_Properties
      */
     public function getAxisOptionsProperty($property)
     {
-        return $this->axisOptions[$property];
+        return isset($this->axisOptions[$property]) ? $this->axisOptions[$property] : null;
     }
+
+
+	/**
+	 * @param string $property
+	 * @param string|null $value
+	 * @return $this
+	 */
+	public function setAxisOptionsProperty($property, $value)
+	{
+		$this->axisOptions[$property] = ($value !== null) ? (string) $value : null;
+		return $this;
+	}
+
 
     /**
      * Set Axis Orientation Property
@@ -558,4 +584,33 @@ class PHPExcel_Chart_Axis extends PHPExcel_Chart_Properties
     {
         return $this->softEdges['size'];
     }
+
+
+	/**
+	 * @return int
+	 */
+	public function getAxisId() {
+		if (!isset($this->axisId)) {
+			$this->axisId = rand(10000000,99999999);
+
+			while (isset(self::$allAxisIds[$this->axisId])) {
+				$this->axisId = rand(10000000,99999999);
+			}
+
+			self::$allAxisIds[$this->axisId] = $this->axisId;
+		}
+
+		return $this->axisId;
+	}
+
+
+	/**
+	 * @param int $axisId
+	 * @return $this
+	 */
+	public function setAxisId($axisId) {
+		$this->axisId = $axisId;
+		return $this;
+	}
+
 }
