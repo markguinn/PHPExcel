@@ -261,7 +261,7 @@ class PHPExcel_Writer_Excel2007_Chart extends PHPExcel_Writer_Excel2007_WriterPa
 						$allValueAxes[] = $plotGroup->getAltYAxis();
 					}
 
-					$this->writePlotGroup($plotGroup, $chartType, $objWriter, $catIsMultiLevelSeries, $valIsMultiLevelSeries, $plotGroupingType, $pSheet, $layout);
+					$this->writePlotGroup($plotGroup, $chartType, $objWriter, $catIsMultiLevelSeries, $valIsMultiLevelSeries, $plotGroupingType, $pSheet, $layout, $i==0);
 				}
 			}
 
@@ -1127,46 +1127,49 @@ class PHPExcel_Writer_Excel2007_Chart extends PHPExcel_Writer_Excel2007_WriterPa
 	 *
 	 * @throws  PHPExcel_Writer_Exception
 	 */
-	private function writePlotGroup($plotGroup, $groupType, $objWriter, &$catIsMultiLevelSeries, &$valIsMultiLevelSeries, &$plotGroupingType, PHPExcel_Worksheet $pSheet, PHPExcel_Chart_Layout $layout)
+	private function writePlotGroup($plotGroup, $groupType, $objWriter, &$catIsMultiLevelSeries, &$valIsMultiLevelSeries, &$plotGroupingType, PHPExcel_Worksheet $pSheet, PHPExcel_Chart_Layout $layout, $isFirst=true)
 	{
 		if (is_null($plotGroup)) {
 			return;
 		}
 
-		if (($groupType == PHPExcel_Chart_DataSeries::TYPE_BARCHART) || ($groupType == PHPExcel_Chart_DataSeries::TYPE_BARCHART_3D)) {
-			$objWriter->startElement('c:barDir');
-			$objWriter->writeAttribute('val', $plotGroup->getPlotDirection());
-			$objWriter->endElement();
-		}
-
-		if (!is_null($plotGroup->getPlotGrouping())) {
-			$plotGroupingType = $plotGroup->getPlotGrouping();
-			$objWriter->startElement('c:grouping');
-			$objWriter->writeAttribute('val', $plotGroupingType);
-			$objWriter->endElement();
-		}
-
-		//    Get these details before the loop, because we can use the count to check for varyColors
+		// Get these details before the loop, because we can use the count to check for varyColors
 		$plotSeriesOrder = $plotGroup->getPlotOrder();
 		$plotSeriesCount = count($plotSeriesOrder);
+		$plotGroupingType = $plotGroup->getPlotGrouping();
 
-		if (($groupType !== PHPExcel_Chart_DataSeries::TYPE_RADARCHART) && ($groupType !== PHPExcel_Chart_DataSeries::TYPE_STOCKCHART)) {
-			if ($groupType !== PHPExcel_Chart_DataSeries::TYPE_LINECHART) {
-				if ($plotGroup->getVaryColors() !== null) {
-					$objWriter->startElement('c:varyColors');
-					$objWriter->writeAttribute('val', $plotGroup->getVaryColors());
-					$objWriter->endElement();
-				} elseif (($groupType == PHPExcel_Chart_DataSeries::TYPE_PIECHART) || ($groupType == PHPExcel_Chart_DataSeries::TYPE_PIECHART_3D) || ($groupType == PHPExcel_Chart_DataSeries::TYPE_DONUTCHART) || ($plotSeriesCount > 1)) {
-					$objWriter->startElement('c:varyColors');
-					$objWriter->writeAttribute('val', 1);
-					$objWriter->endElement();
-				} else {
-					$objWriter->startElement('c:varyColors');
-					$objWriter->writeAttribute('val', 0);
-					$objWriter->endElement();
+		if ($isFirst) {
+			if (($groupType == PHPExcel_Chart_DataSeries::TYPE_BARCHART) || ($groupType == PHPExcel_Chart_DataSeries::TYPE_BARCHART_3D)) {
+				$objWriter->startElement('c:barDir');
+				$objWriter->writeAttribute('val', $plotGroup->getPlotDirection());
+				$objWriter->endElement();
+			}
+
+			if (!is_null($plotGroup->getPlotGrouping())) {
+				$objWriter->startElement('c:grouping');
+				$objWriter->writeAttribute('val', $plotGroupingType);
+				$objWriter->endElement();
+			}
+
+			if (($groupType !== PHPExcel_Chart_DataSeries::TYPE_RADARCHART) && ($groupType !== PHPExcel_Chart_DataSeries::TYPE_STOCKCHART)) {
+				if ($groupType !== PHPExcel_Chart_DataSeries::TYPE_LINECHART) {
+					if ($plotGroup->getVaryColors() !== null) {
+						$objWriter->startElement('c:varyColors');
+						$objWriter->writeAttribute('val', $plotGroup->getVaryColors());
+						$objWriter->endElement();
+					} elseif (($groupType == PHPExcel_Chart_DataSeries::TYPE_PIECHART) || ($groupType == PHPExcel_Chart_DataSeries::TYPE_PIECHART_3D) || ($groupType == PHPExcel_Chart_DataSeries::TYPE_DONUTCHART) || ($plotSeriesCount > 1)) {
+						$objWriter->startElement('c:varyColors');
+						$objWriter->writeAttribute('val', 1);
+						$objWriter->endElement();
+					} else {
+						$objWriter->startElement('c:varyColors');
+						$objWriter->writeAttribute('val', 0);
+						$objWriter->endElement();
+					}
 				}
 			}
 		}
+
 
 		foreach ($plotSeriesOrder as $plotSeriesIdx => $plotSeriesRef) {
 			$objWriter->startElement('c:ser');
