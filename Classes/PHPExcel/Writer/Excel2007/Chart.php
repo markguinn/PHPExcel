@@ -1148,7 +1148,9 @@ class PHPExcel_Writer_Excel2007_Chart extends PHPExcel_Writer_Excel2007_WriterPa
 			$objWriter->writeAttribute('val', $this->_seriesIndex + $plotSeriesRef);
 			$objWriter->endElement();
 
-			$this->writeDataLabels($objWriter, $layout, true);
+			if ($groupType == PHPExcel_Chart_DataSeries::TYPE_BARCHART) {
+				$this->writeDataLabels($objWriter, $layout, true);
+			}
 
 			if (($groupType == PHPExcel_Chart_DataSeries::TYPE_PIECHART) || ($groupType == PHPExcel_Chart_DataSeries::TYPE_PIECHART_3D) || ($groupType == PHPExcel_Chart_DataSeries::TYPE_DONUTCHART)) {
 				$objWriter->startElement('c:dPt');
