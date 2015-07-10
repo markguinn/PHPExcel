@@ -139,16 +139,6 @@ class PHPExcel_Chart_Layout
 	 */
 	private $showLeaderLines;
 
-	/**
-	 * @var string
-	 */
-	private $dataLabelPos = 'outEnd';
-
-	/**
-	 * @var int
-	 */
-	private $dataLabelRotation = 0;
-
 
 	/**
 	 * Create a new PHPExcel_Chart_Layout
@@ -491,42 +481,6 @@ class PHPExcel_Chart_Layout
 	public function setShowLeaderLines($value)
 	{
 		$this->showLeaderLines = $value;
-		return $this;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getDataLabelPos() {
-		return $this->dataLabelPos;
-	}
-
-
-	/**
-	 * @param string $dataLabelPos
-	 * @return $this
-	 */
-	public function setDataLabelPos($dataLabelPos) {
-		$this->dataLabelPos = $dataLabelPos;
-		return $this;
-	}
-
-
-	/**
-	 * @return int
-	 */
-	public function getDataLabelRotation() {
-		return $this->dataLabelRotation;
-	}
-
-
-	/**
-	 * @param int $dataLabelRotation
-	 * @return $this
-	 */
-	public function setDataLabelRotation($dataLabelRotation) {
-		$this->dataLabelRotation = $dataLabelRotation;
 		return $this;
 	}
 

@@ -358,10 +358,11 @@ class PHPExcel_Writer_Excel2007_Chart extends PHPExcel_Writer_Excel2007_WriterPa
 	 *
 	 * @param  PHPExcel_Shared_XMLWriter $objWriter XML Writer
 	 * @param  PHPExcel_Chart_Layout $chartLayout Chart layout
+	 * @param  PHPExcel_Chart_DataSeries $inSeries
 	 *
 	 * @throws  PHPExcel_Writer_Exception
 	 */
-	private function writeDataLabels($objWriter, $chartLayout, $inSeries=false)
+	private function writeDataLabels($objWriter, $chartLayout, $inSeries=null)
 	{
 		$objWriter->startElement('c:dLbls');
 
@@ -402,11 +403,11 @@ class PHPExcel_Writer_Excel2007_Chart extends PHPExcel_Writer_Excel2007_WriterPa
 
 		if ($inSeries) {
 			$objWriter->startElement('c:dLblPos');
-			$lblPos = (empty($chartLayout)) ? 'outEnd' : $chartLayout->getDataLabelPos();
+			$lblPos = $inSeries->getDataLabelPos();
 			$objWriter->writeAttribute('val', ((empty($lblPos)) ? 'outEnd' : $lblPos));
 			$objWriter->endElement();
 
-			$lblRot = (empty($chartLayout)) ? 0 : $chartLayout->getDataLabelRotation();
+			$lblRot = $inSeries->getDataLabelRotation();
 			if ($lblRot != 0) {
 				/**
 				 *                    <c:dLbls>
@@ -1183,7 +1184,7 @@ class PHPExcel_Writer_Excel2007_Chart extends PHPExcel_Writer_Excel2007_WriterPa
 			$objWriter->endElement();
 
 			if ($groupType == PHPExcel_Chart_DataSeries::TYPE_BARCHART) {
-				$this->writeDataLabels($objWriter, $layout, true);
+				$this->writeDataLabels($objWriter, $layout, $plotGroup);
 			}
 
 			if (($groupType == PHPExcel_Chart_DataSeries::TYPE_PIECHART) || ($groupType == PHPExcel_Chart_DataSeries::TYPE_PIECHART_3D) || ($groupType == PHPExcel_Chart_DataSeries::TYPE_DONUTCHART)) {

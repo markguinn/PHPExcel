@@ -159,6 +159,18 @@ class PHPExcel_Chart_DataSeries
 
 
 	/**
+	 * @var string
+	 */
+	private $dataLabelPos = 'outEnd';
+
+
+	/**
+	 * @var int
+	 */
+	private $dataLabelRotation = 0;
+
+
+	/**
 	 * Create a new PHPExcel_Chart_DataSeries
 	 */
 	public function __construct($plotType = null, $plotGrouping = null, $plotOrder = array(), $plotLabel = array(), $plotCategory = array(), $plotValues = array(), $plotDirection = null, $smoothLine = null, $plotStyle = null)
@@ -469,6 +481,42 @@ class PHPExcel_Chart_DataSeries
 	 */
 	public function setAltYAxis($altYAxis) {
 		$this->altYAxis = $altYAxis;
+		return $this;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getDataLabelPos() {
+		return $this->dataLabelPos;
+	}
+
+
+	/**
+	 * @param string $dataLabelPos
+	 * @return $this
+	 */
+	public function setDataLabelPos($dataLabelPos) {
+		$this->dataLabelPos = $dataLabelPos;
+		return $this;
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getDataLabelRotation() {
+		return $this->dataLabelRotation;
+	}
+
+
+	/**
+	 * @param int $dataLabelRotation
+	 * @return $this
+	 */
+	public function setDataLabelRotation($dataLabelRotation) {
+		$this->dataLabelRotation = $dataLabelRotation;
 		return $this;
 	}
 
