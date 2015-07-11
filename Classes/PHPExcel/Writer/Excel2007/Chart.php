@@ -94,6 +94,7 @@ class PHPExcel_Writer_Excel2007_Chart extends PHPExcel_Writer_Excel2007_WriterPa
 
 		$objWriter->endElement();
 
+		$this->writeDefaultFont($pChart->getFont(), $objWriter);
 		$this->writePrintSettings($objWriter);
 
 		$objWriter->endElement();
@@ -409,30 +410,6 @@ class PHPExcel_Writer_Excel2007_Chart extends PHPExcel_Writer_Excel2007_WriterPa
 
 			$lblRot = $inSeries->getDataLabelRotation();
 			if ($lblRot != 0) {
-				/**
-				 *                    <c:dLbls>
-				 * <c:txPr>
-				 * <a:bodyPr rot="-5400000" vert="horz" lIns="0" anchor="ctr" anchorCtr="1">
-				 * <a:noAutofit/>
-				 * </a:bodyPr>
-				 * <a:lstStyle/>
-				 * <a:p>
-				 * <a:pPr>
-				 * <a:defRPr/>
-				 * </a:pPr>
-				 * <a:endParaRPr lang="en-US"/>
-				 * </a:p>
-				 * </c:txPr>
-				 * <c:dLblPos val="inEnd"/>
-				 * <c:showLegendKey val="0"/>
-				 * <c:showVal val="1"/>
-				 * <c:showCatName val="0"/>
-				 * <c:showSerName val="0"/>
-				 * <c:showPercent val="0"/>
-				 * <c:showBubbleSize val="0"/>
-				 * <c:showLeaderLines val="0"/>
-				 * </c:dLbls>
-				 */
 				$objWriter->startElement('c:txPr');
 				$objWriter->startElement('a:bodyPr');
 				$objWriter->writeAttribute('rot', $lblRot);
@@ -1579,6 +1556,49 @@ class PHPExcel_Writer_Excel2007_Chart extends PHPExcel_Writer_Excel2007_WriterPa
 		$objWriter->endElement();
 		$objWriter->endElement();
 
+		$objWriter->endElement();
+	}
+
+
+	/**
+	 * If there is a default font, write it.
+	 *
+	 * @param PHPExcel_Style_Font $font
+	 * @param PHPExcel_Shared_XMLWriter $objWriter
+	 */
+	private function writeDefaultFont($font, $objWriter)
+	{
+		/*
+			<c:txPr>
+		        <a:bodyPr/>
+		        <a:lstStyle/>
+		        <a:p>
+		            <a:pPr>
+		                <a:defRPr sz="800">
+		                    <a:latin typeface="Arial"/>
+		                </a:defRPr>
+		            </a:pPr>
+		            <a:endParaRPr lang="en-US"/>
+		        </a:p>
+		    </c:txPr>
+		 */
+
+		if (!$font) return;
+		$objWriter->startElement('c:txPr');
+			$objWriter->startElement('a:bodyPr');
+			$objWriter->endElement();
+			$objWriter->startElement('a:lstStyle');
+			$objWriter->endElement();
+			$objWriter->startElement('a:p');
+				$objWriter->startElement('a:pPr');
+					$objWriter->startElement('a:defRPr');
+						$objWriter->writeAttribute('sz', $font->getSize() ? ($font->getSize() * 100) : 1000);
+						$objWriter->startElement('a:latin');
+							$objWriter->writeAttribute('typeface', $font->getName());
+						$objWriter->endElement();
+					$objWriter->endElement();
+				$objWriter->endElement();
+			$objWriter->endElement();
 		$objWriter->endElement();
 	}
 

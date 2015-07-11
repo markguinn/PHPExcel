@@ -166,6 +166,12 @@ class PHPExcel_Chart
     private $bottomRightYOffset = 10;
 
 
+	/**
+	 * @var PHPExcel_Style_Font
+	 */
+	private $font = null;
+
+
     /**
      * Create a new PHPExcel_Chart
      */
@@ -644,6 +650,26 @@ class PHPExcel_Chart
     {
         return $this->bottomRightYOffset;
     }
+
+
+	/**
+	 * @return PHPExcel_Style_Font
+	 */
+	public function getFont()
+	{
+		return $this->font;
+	}
+
+
+	/**
+	 * @param PHPExcel_Style_Font $font
+	 * @return $this
+	 */
+	public function setFont($font)
+	{
+		$this->font = $font;
+		return $this;
+	}
 
 
     public function refresh()
