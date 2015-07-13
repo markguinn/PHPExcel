@@ -597,15 +597,15 @@ class PHPExcel_Writer_Excel2007_Chart extends PHPExcel_Writer_Excel2007_WriterPa
 		$objWriter->startElement('c:orientation');
 		$objWriter->writeAttribute('val', $xAxis->getAxisOptionsProperty('orientation'));
 
-		if (!is_null($xAxis->getAxisOptionsProperty('maximum'))) {
+		if (!is_null($yAxis->getAxisOptionsProperty('maximum'))) {
 			$objWriter->startElement('c:max');
-			$objWriter->writeAttribute('val', $xAxis->getAxisOptionsProperty('maximum'));
+			$objWriter->writeAttribute('val', $yAxis->getAxisOptionsProperty('maximum'));
 			$objWriter->endElement();
 		}
 
-		if (!is_null($xAxis->getAxisOptionsProperty('minimum'))) {
+		if (!is_null($yAxis->getAxisOptionsProperty('minimum'))) {
 			$objWriter->startElement('c:min');
-			$objWriter->writeAttribute('val', $xAxis->getAxisOptionsProperty('minimum'));
+			$objWriter->writeAttribute('val', $yAxis->getAxisOptionsProperty('minimum'));
 			$objWriter->endElement();
 		}
 
