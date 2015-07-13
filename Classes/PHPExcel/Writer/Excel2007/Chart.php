@@ -610,7 +610,21 @@ class PHPExcel_Writer_Excel2007_Chart extends PHPExcel_Writer_Excel2007_WriterPa
 		}
 
 		$objWriter->endElement();
-		$objWriter->endElement();
+
+        // LibreOffice wants these outside c:orientation but Excel wants them inside
+        if (!is_null($yAxis->getAxisOptionsProperty('maximum'))) {
+            $objWriter->startElement('c:max');
+            $objWriter->writeAttribute('val', $yAxis->getAxisOptionsProperty('maximum'));
+            $objWriter->endElement();
+        }
+
+        if (!is_null($yAxis->getAxisOptionsProperty('minimum'))) {
+            $objWriter->startElement('c:min');
+            $objWriter->writeAttribute('val', $yAxis->getAxisOptionsProperty('minimum'));
+            $objWriter->endElement();
+        }
+
+        $objWriter->endElement();
 
 		$objWriter->startElement('c:delete');
 		$objWriter->writeAttribute('val', 0);
