@@ -131,6 +131,12 @@ class PHPExcel_Chart_Axis extends PHPExcel_Chart_Properties
     );
 
 
+    /**
+     * @var PHPExcel_Style_Font
+     */
+    private $font;
+
+
 	/**
 	 * @var int
 	 */
@@ -583,6 +589,26 @@ class PHPExcel_Chart_Axis extends PHPExcel_Chart_Properties
     public function getSoftEdgesSize()
     {
         return $this->softEdges['size'];
+    }
+
+
+    /**
+     * @return PHPExcel_Style_Font
+     */
+    public function getFont()
+    {
+        return isset($this->font) ? $this->font : null;
+    }
+
+
+    /**
+     * @param PHPExcel_Style_Font $labelFont
+     * @return $this
+     */
+    public function setFont($font)
+    {
+        $this->font = $font;
+        return $this;
     }
 
 

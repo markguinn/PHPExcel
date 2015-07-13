@@ -448,6 +448,8 @@ class PHPExcel_Writer_Excel2007_Chart extends PHPExcel_Writer_Excel2007_WriterPa
 	 * @param  string $id1
 	 * @param  string $id2
 	 * @param  boolean $isMultiLevelSeries
+     * @param  PHPExcel_Chart_Axis $xAxis
+     * @param  PHPExcel_Chart_Axis $yAxis
 	 *
 	 * @throws  PHPExcel_Writer_Exception
 	 */
@@ -543,6 +545,10 @@ class PHPExcel_Writer_Excel2007_Chart extends PHPExcel_Writer_Excel2007_WriterPa
 			$objWriter->writeAttribute('val', $yAxis->getAxisOptionsProperty('horizontal_crosses'));
 			$objWriter->endElement();
 		}
+
+        if (($font = $xAxis->getFont())) {
+            $this->writeDefaultFont($font, $objWriter);
+        }
 
 		$objWriter->startElement('c:auto');
 		$objWriter->writeAttribute('val', 1);
@@ -1568,21 +1574,6 @@ class PHPExcel_Writer_Excel2007_Chart extends PHPExcel_Writer_Excel2007_WriterPa
 	 */
 	private function writeDefaultFont($font, $objWriter)
 	{
-		/*
-			<c:txPr>
-		        <a:bodyPr/>
-		        <a:lstStyle/>
-		        <a:p>
-		            <a:pPr>
-		                <a:defRPr sz="800">
-		                    <a:latin typeface="Arial"/>
-		                </a:defRPr>
-		            </a:pPr>
-		            <a:endParaRPr lang="en-US"/>
-		        </a:p>
-		    </c:txPr>
-		 */
-
 		if (!$font) return;
 		$objWriter->startElement('c:txPr');
 			$objWriter->startElement('a:bodyPr');
